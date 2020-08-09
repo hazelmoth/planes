@@ -5,7 +5,6 @@ using TMPro;
 
 public class HUDController : MonoBehaviour
 {
-	PlaneController planeToDisplay;
 	[SerializeField] TextMeshProUGUI speedText;
 	[SerializeField] TextMeshProUGUI vertSpeedText;
 	[SerializeField] TextMeshProUGUI throttleText;
@@ -25,7 +24,7 @@ public class HUDController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (planeToDisplay != null)
+		if (input.ActivePlane != null)
 		{
 			speedText.text = System.Math.Round(input.ActivePlane.CurrentSpeed, 1) + " m/s";
 			altitudeText.text = "altitude: " + System.Math.Round(input.ActivePlane.Altitude, 0) + " m";
