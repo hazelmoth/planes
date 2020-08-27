@@ -38,6 +38,7 @@ public class PlayerPlaneInput : MonoBehaviour
 		activePlane.SetElevatorAmount(Input.GetAxis("Vertical"));
 		activePlane.SetAileronAmount(Input.GetAxis("Roll"));
 		activePlane.SetRudderAmount(Input.GetAxis("Horizontal"));
+		activePlane.Weapons.SetTrigger(Input.GetButton("Fire"));
 
 		if (Input.GetKeyDown(KeyCode.G))
 			activePlane.ToggleLandingGear();

@@ -7,6 +7,7 @@ public class PlaneController : MonoBehaviour
 	[SerializeField] PlanePropellor propellor;
 	[SerializeField] ControlSurfaceAnimator surfaces;
 	[SerializeField] LandingGearController gear;
+	[SerializeField] PlaneWeapons weapons;
 	[SerializeField] Vector3 centerOfDrag;
 	[SerializeField] AnimationCurve liftCurve;
 
@@ -29,6 +30,9 @@ public class PlaneController : MonoBehaviour
 	float currentAileronAmount;
 	float currentElevatorAmount;
 
+	public PlaneWeapons Weapons => weapons;
+
+	// Status
 	public float CurrentSpeed => rigidbody.velocity.magnitude;
 	public float VerticalSpeed => rigidbody.velocity.y;
 	public float Altitude => transform.position.y;
