@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+# Exclude paid store assets
+/[Aa]ssets/OverCloud*
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
@@ -57,4 +60,5 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
 
