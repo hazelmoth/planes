@@ -5,6 +5,36 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
+    RecentlyUsedScenePath-0:
+      value: 50050c505d51585e580a55264372594413154b7f2f2e71687c2a4e37b7e2633d
+      flags: 0
+    RecentlyUsedScenePath-1:
+      value: 0755065701505a0c590c0a7213700a4441154128797e2062792a4a61b2e4366a
+      flags: 0
+    RecentlyUsedScenePath-2:
+      value: 0203025556005f5d5c585d7514775944134f1d737c2d7267742d4965b0b93669
+      flags: 0
+    RecentlyUsedScenePath-3:
+      value: 0701040203070b080e5f0f24157309444715497b7d2b20342e714b30e4e1646e
+      flags: 0
+    RecentlyUsedScenePath-4:
+      value: 520656535c510f03595b0d20457b5d44464e4b2f7a7e23697f284d6be0e6306f
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 5508560554015a0e595b5c201121094412164a7374297f652f784b35b6b0353e
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 0750000251055003085f0e2440760944444f497e297e2436787d4a6bb2e6606f
+      flags: 0
+    RecentlyUsedScenePath-7:
+      value: 5302025e54570c5d5b0a5d7711200a444016192b2f7a7534287d4d66bab2313c
+      flags: 0
+    RecentlyUsedScenePath-8:
+      value: 5408065550505d085d0b59711520084412164e72757e20682b2a456be1b66569
+      flags: 0
+    RecentlyUsedScenePath-9:
+      value: 0100520050065e58085c0a74427b0a44434f497f7b2d2268797c4430b2b5646a
+      flags: 0
     UnityEditor.ShaderGraph.FloatingWindowsLayout2:
       value: 181344140043005e1a220d3b1f364b524c0c5a27130c293326201334cee5322ca0bd30e8eb293a707b0fd0180b3d0a36fc0d3d04e649500d1002ee0b5dbd1d2c27c00ad113cb1e10e41f1addc80993b9859884a69ae6d8f0d1cda9e8fbfefaf9f9dea3fdb9ade882f0ffb0e1e380cafbf2c3adc18e9cd285a2908b87ee819c8395949c9483d38b8c97ddbd90eed2a5a892a2af949aa48bafb19f85bd75a7ed3a7d25658598b7b58bb4b76aaf777690ca2863946c72c6cd81b6b6708f9f879f88769589d91c8f888e64d20f935e796571755c6b546677696a486c781c073d6f23696429450074652134203e56454c514e4352305f78621d06746f0243326d645d4b5f450e471441155070717340736e6130644f727947667b34007c5f3fe12420e62304f4e023e03efadde518f54165ebb4efba505858565e5d45bf0a809a4048928946d4da
       flags: 0
@@ -19,7 +49,11 @@ EditorUserSettings:
   m_VCDebugCmd: 0
   m_VCDebugOut: 0
   m_SemanticMergeMode: 2
+  m_DesiredImportWorkerCount: 0
   m_VCShowFailedCheckout: 1
   m_VCOverwriteFailedCheckoutAssets: 1
-  m_VCOverlayIcons: 1
+  m_VCProjectOverlayIcons: 1
+  m_VCHierarchyOverlayIcons: 1
+  m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 0
+  m_ArtifactGarbageCollection: 1
