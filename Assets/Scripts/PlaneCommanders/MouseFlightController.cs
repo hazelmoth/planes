@@ -45,6 +45,9 @@ namespace MFlight
         private bool isMouseAimFrozen = false;
         private float currentThrottle = 0f;
 
+        public PlaneController ActivePlane => aircraft;
+        public float CurrentThrottle => currentThrottle;
+
         /// <summary>
         /// Get a point along the aircraft.transform's boresight projected out to aimDistance meters.
         /// Useful for drawing a crosshair to aim fixed forward guns with, or to indicate what
@@ -120,7 +123,7 @@ namespace MFlight
             aircraft.SetAileronAmount(roll);
 
             // Other input
-            aircraft.Weapons.SetTrigger(Input.GetButton("Fire"));
+            if (aircraft.Weapons != null) aircraft.Weapons.SetTrigger(Input.GetButton("Fire"));
 
             if (Input.GetKeyDown(KeyCode.G))
                 aircraft.ToggleLandingGear();

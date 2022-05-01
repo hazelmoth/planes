@@ -267,9 +267,11 @@ MonoBehaviour:
   optimalDragConstant: 0.5
   backwardsDragConstant: 10
   inducedDragConstant: 0.5
+  sidewaysLiftMultiplier: 0.25
   yawForce: 3000
   rollForce: 10000
   pitchForce: 10000
+  rollForceConstant: 4
 --- !u!114 &427683729464341370
 MonoBehaviour:
   m_ObjectHideFlags: 0

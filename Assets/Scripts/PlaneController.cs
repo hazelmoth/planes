@@ -25,8 +25,11 @@ public class PlaneController : MonoBehaviour
 
 	// in N
 	[SerializeField] private float yawForce = 3000f;
-	[SerializeField] private float rollForce = 10000f;
 	[SerializeField] private float pitchForce = 10000f;
+
+	[SerializeField] private float rollTorqueConstant = 4f;
+	[SerializeField] private float pitchTorqueConstant = 3f;
+	[SerializeField] private float yawTorqueConstant = 1f;
 
 	float currentRudderAmount;
 	float currentAileronAmount;
@@ -36,15 +39,20 @@ public class PlaneController : MonoBehaviour
 
 	// Status
 	public float CurrentSpeed => rigidbody.velocity.magnitude;
+
 	public float VerticalSpeed => rigidbody.velocity.y;
+
 	public float Altitude => transform.position.y;
+
 	public float Pitch => 90 - Vector3.Angle(transform.forward, Vector3.up);
 
 	public float Roll => 90 - Vector3.Angle(transform.right, Vector3.up);
+
 	public float Heading =>
 		Vector3.Angle(Vector3.ProjectOnPlane(transform.forward, Vector3.up), Vector3.forward);
 
-	/// The angle between the velocity vector and the forward vector as projected on YZ.
+	/// The angle between the velocity vector and the forward vector as projected on the
+	/// aircraft's YZ plane.
 	public float AngleOfAttack
 	{
 		get
@@ -57,7 +65,8 @@ public class PlaneController : MonoBehaviour
 		}
 	}
 
-	/// The angle between the velocity vector and forward vector as projected on XZ.
+	/// The angle between the velocity vector and forward vector as projected on the
+	/// aircraft's XZ plane.
 	public float SideslipAngle
 	{
 		get
@@ -102,6 +111,7 @@ public class PlaneController : MonoBehaviour
     {
 		rigidbody = GetComponent<Rigidbody>();
     }
+
 	private void Update()
 	{
 		if (surfaces != null)
@@ -123,9 +133,9 @@ public class PlaneController : MonoBehaviour
 		Vector3 liftVector = Vector3.up * CalculateLift();
 		liftVector += Vector3.right * CalculateSidewaysLift();
 
-		Vector3 yawTorque = Vector3.up * currentRudderAmount * yawForce;
-		Vector3 rollTorque = Vector3.back * currentAileronAmount * rollForce;
-		Vector3 pitchTorque = Vector3.left * currentElevatorAmount * pitchForce;
+		Vector3 rollTorque = Vector3.back * CalculateRollTorque();
+		Vector3 yawTorque = Vector3.up * CalculateYawTorque();
+		Vector3 pitchTorque = Vector3.left * CalculatePitchTorque();
 
 		Vector3 netTorque = yawTorque + rollTorque + pitchTorque;
 
@@ -163,6 +173,24 @@ public class PlaneController : MonoBehaviour
 		float pitchFactor = Mathf.Sign(SideslipAngle) * liftCurve.Evaluate(Mathf.Abs(SideslipAngle) / 180);
 		float liftForce = -1f * sidewaysLiftMultiplier * (liftConstant * Mathf.Pow(CurrentSpeed, 2)) * pitchFactor;
 		return liftForce;
+	}
+
+	private float CalculateRollTorque()
+	{
+		Vector3 forwardVelocity = Vector3.Project(rigidbody.velocity, transform.forward);
+		return Mathf.Pow(forwardVelocity.magnitude, 2) * rollTorqueConstant * currentAileronAmount;
+	}
+
+	private float CalculatePitchTorque()
+	{
+		Vector3 forwardVelocity = Vector3.Project(rigidbody.velocity, transform.forward);
+		return Mathf.Pow(forwardVelocity.magnitude, 2) * pitchTorqueConstant * currentElevatorAmount;
+	}
+
+	private float CalculateYawTorque()
+	{
+		Vector3 forwardVelocity = Vector3.Project(rigidbody.velocity, transform.forward);
+		return Mathf.Pow(forwardVelocity.magnitude, 2) * yawTorqueConstant * currentRudderAmount;
 	}
 
 	Vector3 CalculateDragVector ()

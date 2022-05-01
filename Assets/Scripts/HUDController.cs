@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using MFlight;
 using UnityEngine;
 using TMPro;
 
@@ -14,7 +15,7 @@ public class HUDController : MonoBehaviour
 	[SerializeField] TextMeshProUGUI pitchText;
 	[SerializeField] TextMeshProUGUI rollText;
 	[SerializeField] TextMeshProUGUI headingText;
-	[SerializeField] PlayerPlaneInput input;
+	[SerializeField] MouseFlightController input;
 
     // Start is called before the first frame update
     void Start()
@@ -29,15 +30,15 @@ public class HUDController : MonoBehaviour
 			speedText.text = System.Math.Round(input.ActivePlane.CurrentSpeed, 1) + " m/s";
 			altitudeText.text = "altitude: " + System.Math.Round(input.ActivePlane.Altitude, 0) + " m";
 			vertSpeedText.text = "vert: " + System.Math.Round(input.ActivePlane.VerticalSpeed, 1) + " m/s";
-			dragAmountText.text = "drag:" + System.Math.Round(input.ActivePlane.DragMagnitude, 0);
+			dragAmountText.text = "drag:" + System.Math.Round(input.ActivePlane.DragMagnitude, 0) + " N";
 			angleOfAttackText.text = System.Math.Round(input.ActivePlane.AngleOfAttack, 1)
 				+ "° AoA, "
 				+ System.Math.Round(input.ActivePlane.SideslipAngle, 1)
-				+ "° Sideslip";
+				+ "° sideslip";
 			pitchText.text = "pitch: " + System.Math.Round(input.ActivePlane.Pitch,       1) + "°";
 			rollText.text = "roll: " + System.Math.Round(input.ActivePlane.Roll,          1) + "°";
 			headingText.text = "heading: " + System.Math.Round(input.ActivePlane.Heading, 1) + "°";
 		}
-		throttleText.text = (Mathf.Round(input.currentThrottle * 100)).ToString() + "% throttle";
+		throttleText.text = Mathf.Round(input.CurrentThrottle * 100) + "% throttle";
     }
 }
