@@ -28,12 +28,7 @@ public class LandingGearController : MonoBehaviour
 	float currentAnimStartProgress;
 
 	public GearState State { get; private set; }
-
-	private void Start()
-	{
-		//State = GearState.Deployed;
-		//SetDeployed(true);
-	}
+	
 	public enum GearState
 	{
 		Deployed,

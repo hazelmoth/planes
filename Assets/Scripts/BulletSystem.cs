@@ -25,6 +25,11 @@ public class BulletSystem : MonoBehaviour
 
         foreach (BulletData bullet in bullets)
         {
+            if (bullet.bullet == null)
+            {
+                toRemove++;
+                continue;
+            }
             if (Time.time - bullet.startTIme > FlyTime)
             {
                 Destroy(bullet.bullet);
@@ -38,10 +43,10 @@ public class BulletSystem : MonoBehaviour
         bullets.RemoveRange(0, toRemove); // Assumes that bullets are ordered by age
     }
 
-    public static void Fire (GameObject bulletPrefab, Transform origin, float muzzleVelocity)
+    public static void Fire (GameObject bulletPrefab, Transform origin, float muzzleVelocity, Vector3 parentVelocity)
     {
         GameObject bullet = GameObject.Instantiate(bulletPrefab, origin.position, origin.rotation, instance.transform);
-        instance.bullets.Add(new BulletData (bullet, muzzleVelocity * bullet.transform.forward, Time.time));
+        instance.bullets.Add(new BulletData (bullet, parentVelocity + muzzleVelocity * bullet.transform.forward, Time.time));
     }
 
     private struct BulletData

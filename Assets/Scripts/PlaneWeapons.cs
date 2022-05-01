@@ -9,11 +9,12 @@ public class PlaneWeapons : MonoBehaviour
     private int activeWeapon;
     private bool triggerHeld;
     private float lastShotTime;
+    private Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
- 
+        rb = GetComponentInParent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -26,7 +27,11 @@ public class PlaneWeapons : MonoBehaviour
             {
                 for(int i = 0; i < weapons[activeWeapon].launchPoints.Count; i++)
                 {
-                    BulletSystem.Fire(weapons[activeWeapon].data.projectileAsset, weapons[activeWeapon].launchPoints[i], weapons[activeWeapon].data.muzzleVelocity);
+                    BulletSystem.Fire(
+                        weapons[activeWeapon].data.projectileAsset,
+                        weapons[activeWeapon].launchPoints[i],
+                        weapons[activeWeapon].data.muzzleVelocity,
+                        rb != null ? rb.velocity : Vector3.zero);
                 }
                 lastShotTime = Time.time;
             }

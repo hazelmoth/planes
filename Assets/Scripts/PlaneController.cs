@@ -8,6 +8,7 @@ public class PlaneController : MonoBehaviour
 	[SerializeField] ControlSurfaceAnimator surfaces;
 	[SerializeField] LandingGearController gear;
 	[SerializeField] PlaneWeapons weapons;
+	[SerializeField] PlaneHealth health;
 	[SerializeField] Vector3 centerOfDrag;
 	[SerializeField] AnimationCurve liftCurve;
 
@@ -61,28 +62,23 @@ public class PlaneController : MonoBehaviour
 	}
 	public float DragMagnitude { get; private set; }
 	public float CurrentThrottle { get; private set; }
-	public bool GearDeployed
-	{
-		get
-		{
-			return gear.State == LandingGearController.GearState.Deployed || gear.State == LandingGearController.GearState.Deploying;
-		}
-	}
+	public bool GearDeployed =>
+		gear.State == LandingGearController.GearState.Deployed
+		|| gear.State == LandingGearController.GearState.Deploying;
 
 	// Controls
-	public void SetThrottle(float power) => CurrentThrottle = power;
-	public void SetRudderAmount(float yaw) => currentRudderAmount = yaw;
-	public void SetElevatorAmount(float pitch) => currentElevatorAmount = pitch;
-	public void SetAileronAmount(float roll) => currentAileronAmount = roll;
+	public void SetThrottle(float power) => CurrentThrottle = health?.ModifyThrottle(power) ?? power;
+	public void SetRudderAmount(float yaw) => currentRudderAmount = health?.ModifyRudder(yaw) ?? yaw;
+	public void SetElevatorAmount(float pitch) => currentElevatorAmount = health?.ModifyElevator(pitch) ?? pitch;
+	public void SetAileronAmount(float roll) => currentAileronAmount = health?.ModifyAileron(roll) ?? roll;
 	public void SetGearDeployed (bool deployed)
 	{
-		if (gear)
-			gear.SetDeployed(deployed);
+		deployed = health?.ModifyGearDeployed(deployed) ?? deployed;
+		if (gear) gear.SetDeployed(deployed);
 	}
 	public void ToggleLandingGear ()
 	{
-		if (gear)
-			gear.SetDeployed(!GearDeployed);
+		SetGearDeployed(!GearDeployed);
 	}
 
 	// Start is called before the first frame update
