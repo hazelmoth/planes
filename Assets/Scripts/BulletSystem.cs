@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BulletSystem : MonoBehaviour
 {
-    private const float FlyTime = 1f;
+    private const float FlyTime = 5f;
 
     private static BulletSystem instance;
 
@@ -37,7 +37,8 @@ public class BulletSystem : MonoBehaviour
             }
             else
             {
-                bullet.bullet.transform.Translate(bullet.velocity * Time.deltaTime, Space.World);
+                if (bullet.rb != null) bullet.rb.velocity = bullet.velocity;
+                else bullet.bullet.transform.Translate(bullet.velocity * Time.deltaTime, Space.World);
             }
         }
         bullets.RemoveRange(0, toRemove); // Assumes that bullets are ordered by age
@@ -52,12 +53,14 @@ public class BulletSystem : MonoBehaviour
     private struct BulletData
     {
         public GameObject bullet;
+        public Rigidbody rb;
         public Vector3 velocity;
         public float startTIme;
 
         public BulletData(GameObject bullet, Vector3 velocity, float startTIme)
         {
             this.bullet = bullet;
+            this.rb = bullet.GetComponent<Rigidbody>();
             this.velocity = velocity;
             this.startTIme = startTIme;
         }

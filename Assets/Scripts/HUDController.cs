@@ -30,9 +30,12 @@ public class HUDController : MonoBehaviour
 			altitudeText.text = "altitude: " + System.Math.Round(input.ActivePlane.Altitude, 0) + " m";
 			vertSpeedText.text = "vert: " + System.Math.Round(input.ActivePlane.VerticalSpeed, 1) + " m/s";
 			dragAmountText.text = "drag:" + System.Math.Round(input.ActivePlane.DragMagnitude, 0);
-			angleOfAttackText.text = System.Math.Round(input.ActivePlane.AngleOfAttack, 1) + "° AoA";
-			pitchText.text = "pitch: " + System.Math.Round(input.ActivePlane.Pitch, 1) + "°";
-			rollText.text = "roll: " + System.Math.Round(input.ActivePlane.Roll, 1) + "°";
+			angleOfAttackText.text = System.Math.Round(input.ActivePlane.AngleOfAttack, 1)
+				+ "° AoA, "
+				+ System.Math.Round(input.ActivePlane.SideslipAngle, 1)
+				+ "° Sideslip";
+			pitchText.text = "pitch: " + System.Math.Round(input.ActivePlane.Pitch,       1) + "°";
+			rollText.text = "roll: " + System.Math.Round(input.ActivePlane.Roll,          1) + "°";
 			headingText.text = "heading: " + System.Math.Round(input.ActivePlane.Heading, 1) + "°";
 		}
 		throttleText.text = (Mathf.Round(input.currentThrottle * 100)).ToString() + "% throttle";

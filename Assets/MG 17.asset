@@ -16,5 +16,5 @@ MonoBehaviour:
   projectileAsset: {fileID: 517744421491980849, guid: 71a4b3adbfe415548be0e0c1a475875b,
     type: 3}
   automatic: 1
-  fireRate: 800
+  fireRate: 600
   muzzleVelocity: 100

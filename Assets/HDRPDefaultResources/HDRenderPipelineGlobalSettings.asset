@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 781cc897cf8675041a751163b51f97dd, type: 3}
   m_Name: HDRenderPipelineGlobalSettings
   m_EditorClassIdentifier: 
-  m_DefaultVolumeProfile: {fileID: 11400000, guid: 26aa28ee30c143b42960ad0e72e5c827,
+  m_DefaultVolumeProfile: {fileID: 11400000, guid: 596076ad4553bad4ba60dbd5a375bcec,
     type: 2}
-  m_LookDevVolumeProfile: {fileID: 11400000, guid: aac5833d448edf04b837ad8e25ca7b51,
+  m_LookDevVolumeProfile: {fileID: 11400000, guid: 1c4b68c90d4e35548b0d406ec43e94c8,
     type: 2}
   m_RenderingPathDefaultCameraFrameSettings:
     bitDatas:
@@ -34,7 +34,7 @@ MonoBehaviour:
   m_RenderingPathDefaultBakedOrCustomReflectionFrameSettings:
     bitDatas:
       data1: 135310754214733
-      data2: 4539628428684427288
+      data2: 4539628428684460056
     lodBias: 1
     lodBiasMode: 0
     lodBiasQualityLevel: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_RenderingPathDefaultRealtimeReflectionFrameSettings:
     bitDatas:
       data1: 139923391782733
-      data2: 13763000465807671312
+      data2: 13763000465807638544
     lodBias: 1
     lodBiasMode: 0
     lodBiasQualityLevel: 0
@@ -88,14 +88,17 @@ MonoBehaviour:
   shaderVariantLogLevel: 0
   lensAttenuationMode: 0
   diffusionProfileSettingsList:
-  - {fileID: 11400000, guid: 31db7898dc513304e80338b0fc4b56b6, type: 2}
-  - {fileID: 11400000, guid: 827000a77eeac06479b1dfcf09134e9d, type: 2}
+  - {fileID: 11400000, guid: 47fa6b189e3b5d140a50ed1fc5b85fa0, type: 2}
+  - {fileID: 11400000, guid: 3609e8400a09ea745822ba88644fa5b9, type: 2}
   rendererListCulling: 0
   DLSSProjectId: 000000
   useDLSSCustomProjectId: 0
   supportProbeVolumes: 0
   supportRuntimeDebugDisplay: 0
-  apvScenesBounds:
+  apvScenesData:
     serializedBounds: []
     serializedHasVolumes: []
+    serializedProfiles: []
+    serializedBakeSettings: []
+    serializedBakingSets: []
   m_Version: 3

@@ -21,7 +21,7 @@ public class SimplePlaneHealth : PlaneHealth, IProjectileReceiver
                 aileronHealth = Mathf.Max(0, aileronHealth - 1);
                 if (aileronHealth == 0 && stuckAileronValue == 0)
                 {
-                    stuckAileronValue = Random.value;
+                    stuckAileronValue = Random.Range(-1f, 1f);
                     Debug.Log("Aileron disabled");
                 }
                 break;
@@ -29,7 +29,7 @@ public class SimplePlaneHealth : PlaneHealth, IProjectileReceiver
                 rudderHealth = Mathf.Max(0, rudderHealth - 1);
                 if (rudderHealth == 0 && stuckRudderValue == 0)
                 {
-                    stuckRudderValue = Random.value;
+                    stuckRudderValue = Random.Range(-1f, 1f);
                     Debug.Log("Rudder disabled");
                 }
                 break;
@@ -37,7 +37,7 @@ public class SimplePlaneHealth : PlaneHealth, IProjectileReceiver
                 elevatorHealth = Mathf.Max(0, elevatorHealth - 1);
                 if (elevatorHealth == 0 && stuckElevatorValue == 0)
                 {
-                    stuckElevatorValue = Random.value;
+                    stuckElevatorValue = Random.Range(-1f, 1f);
                     Debug.Log("Elevator disabled");
                 }
                 break;
