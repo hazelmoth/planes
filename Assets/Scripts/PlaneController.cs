@@ -20,12 +20,13 @@ public class PlaneController : MonoBehaviour
 	[SerializeField] private float optimalDragConstant = 10f;
 	[SerializeField] private float backwardsDragConstant = 40f;
 	[SerializeField] private float inducedDragConstant = 10f;
+	[SerializeField] private float sidewaysLiftMultiplier = 0.25f;
 
 
 	// in N
-	[SerializeField] private float yawForce = 2000f;
-	[SerializeField] private float rollForce = 7000f;
-	[SerializeField] private float pitchForce = 3500f;
+	[SerializeField] private float yawForce = 3000f;
+	[SerializeField] private float rollForce = 10000f;
+	[SerializeField] private float pitchForce = 10000f;
 
 	float currentRudderAmount;
 	float currentAileronAmount;
@@ -37,45 +38,60 @@ public class PlaneController : MonoBehaviour
 	public float CurrentSpeed => rigidbody.velocity.magnitude;
 	public float VerticalSpeed => rigidbody.velocity.y;
 	public float Altitude => transform.position.y;
-	public float Pitch { get
-		{
-			return 90 - Vector3.Angle(transform.forward, Vector3.up);
-		} 
-	}
-	public float Roll { get
-		{
-			return 90 - Vector3.Angle(transform.right, Vector3.up);
-		} }
-	public float Heading { get
-		{
-			return Vector3.Angle(Vector3.ProjectOnPlane(transform.forward, Vector3.up), Vector3.forward);
-		} }
+	public float Pitch => 90 - Vector3.Angle(transform.forward, Vector3.up);
+
+	public float Roll => 90 - Vector3.Angle(transform.right, Vector3.up);
+	public float Heading =>
+		Vector3.Angle(Vector3.ProjectOnPlane(transform.forward, Vector3.up), Vector3.forward);
+
+	/// The angle between the velocity vector and the forward vector as projected on YZ.
 	public float AngleOfAttack
 	{
 		get
 		{
-			Vector3 velocity = transform.InverseTransformVector(rigidbody.velocity);
-			Vector3 trajectory = velocity.normalized;
-			float angle = Vector3.SignedAngle(Vector3.forward, trajectory, Vector3.right);
-			return angle;
+			Vector3 localVelocity = transform.InverseTransformVector(rigidbody.velocity);
+			Vector3 localTrajectory = localVelocity.normalized;
+
+			Vector3 yzTrajectory = Vector3.ProjectOnPlane(localTrajectory, Vector3.right);
+			return Vector3.SignedAngle(Vector3.forward, yzTrajectory, Vector3.right);
 		}
 	}
+
+	/// The angle between the velocity vector and forward vector as projected on XZ.
+	public float SideslipAngle
+	{
+		get
+		{
+			Vector3 localVelocity = transform.InverseTransformVector(rigidbody.velocity);
+			Vector3 localTrajectory = localVelocity.normalized;
+
+			Vector3 xzTrajectory = Vector3.ProjectOnPlane(localTrajectory, Vector3.up);
+			return Vector3.SignedAngle(Vector3.forward, xzTrajectory, Vector3.up);
+		}
+	}
+
 	public float DragMagnitude { get; private set; }
 	public float CurrentThrottle { get; private set; }
 	public bool GearDeployed =>
-		gear.State == LandingGearController.GearState.Deployed
-		|| gear.State == LandingGearController.GearState.Deploying;
+		gear.State is LandingGearController.GearState.Deployed
+			or LandingGearController.GearState.Deploying;
 
 	// Controls
-	public void SetThrottle(float power) => CurrentThrottle = health?.ModifyThrottle(power) ?? power;
-	public void SetRudderAmount(float yaw) => currentRudderAmount = health?.ModifyRudder(yaw) ?? yaw;
-	public void SetElevatorAmount(float pitch) => currentElevatorAmount = health?.ModifyElevator(pitch) ?? pitch;
-	public void SetAileronAmount(float roll) => currentAileronAmount = health?.ModifyAileron(roll) ?? roll;
+	public void SetThrottle(float power) =>
+		CurrentThrottle = health != null ? health.ModifyThrottle(power) : power;
+	public void SetRudderAmount(float yaw) =>
+		currentRudderAmount = health != null ? health.ModifyRudder(yaw) : yaw;
+	public void SetElevatorAmount(float pitch) =>
+		currentElevatorAmount = health != null ? health.ModifyElevator(pitch) : pitch;
+	public void SetAileronAmount(float roll) =>
+		currentAileronAmount = health != null ? health.ModifyAileron(roll) : roll;
+
 	public void SetGearDeployed (bool deployed)
 	{
-		deployed = health?.ModifyGearDeployed(deployed) ?? deployed;
+		deployed = health != null ? health.ModifyGearDeployed(deployed) : deployed;
 		if (gear) gear.SetDeployed(deployed);
 	}
+
 	public void ToggleLandingGear ()
 	{
 		SetGearDeployed(!GearDeployed);
@@ -105,6 +121,7 @@ public class PlaneController : MonoBehaviour
 		Vector3 thrustVector = Vector3.forward * thrust;
 
 		Vector3 liftVector = Vector3.up * CalculateLift();
+		liftVector += Vector3.right * CalculateSidewaysLift();
 
 		Vector3 yawTorque = Vector3.up * currentRudderAmount * yawForce;
 		Vector3 rollTorque = Vector3.back * currentAileronAmount * rollForce;
@@ -118,12 +135,16 @@ public class PlaneController : MonoBehaviour
 
 		Vector3 dragWorldPoint = transform.TransformPoint(centerOfDrag);
 		Vector3 dragWorldVector = transform.TransformVector(CalculateDragVector());
-		Debug.DrawRay(dragWorldPoint, dragWorldVector, Color.red, Time.fixedDeltaTime);
 		rigidbody.AddForceAtPosition(dragWorldVector, dragWorldPoint);
 
 		rigidbody.AddRelativeTorque(netTorque);
 
 		propellor?.SetPower(CurrentThrottle);
+
+		Debug.DrawRay(transform.position, transform.TransformVector(liftVector) / 100f, Color.green, Time.fixedDeltaTime);
+		Debug.DrawRay(dragWorldPoint, dragWorldVector / 100f, Color.red, Time.fixedDeltaTime);
+		Debug.DrawRay(transform.position, rigidbody.velocity / 10f, Color.blue, Time.fixedDeltaTime);
+
     }
 
 
@@ -131,9 +152,19 @@ public class PlaneController : MonoBehaviour
 	float CalculateLift () {
 		// in N
 		float pitchFactor = liftCurve.Evaluate(AngleOfAttack / 180);
-		float liftForce = (liftConstant * Mathf.Pow(CurrentSpeed, 2)) * pitchFactor;
+		float liftForce = liftConstant * Mathf.Pow(CurrentSpeed, 2) * pitchFactor;
 		return liftForce;
 	}
+
+	/// Calculates lift on the x-axis from sideways flight, using a scaled down version
+	/// of the normal lift curve.
+	private float CalculateSidewaysLift () {
+		// in N
+		float pitchFactor = Mathf.Sign(SideslipAngle) * liftCurve.Evaluate(Mathf.Abs(SideslipAngle) / 180);
+		float liftForce = -1f * sidewaysLiftMultiplier * (liftConstant * Mathf.Pow(CurrentSpeed, 2)) * pitchFactor;
+		return liftForce;
+	}
+
 	Vector3 CalculateDragVector ()
 	{
 		Vector3 velocity = transform.InverseTransformVector(rigidbody.velocity);
