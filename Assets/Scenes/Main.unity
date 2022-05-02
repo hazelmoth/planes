@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 614369763}
-  m_IndirectSpecularColor: {r: 1580.0215, g: 4198.75, b: 4806.871, a: 1}
+  m_IndirectSpecularColor: {r: 1582.0859, g: 4307.551, b: 5121.9766, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -470,7 +470,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696978679}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &308595251
 GameObject:
@@ -2193,7 +2193,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696978679}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1141906311
 MonoBehaviour:
@@ -2211,8 +2211,8 @@ MonoBehaviour:
   flightRigPrefab: {fileID: 1340265690153048, guid: 97faf22c61a389145bea624e8761d5c2,
     type: 3}
   hudPrefab: {fileID: 1583529893924578, guid: d5948052808c45f40a19aa637054daa7, type: 3}
-  sensitivity: 6
-  rollSensitivity: 0.7
+  sensitivity: 7
+  rollSensitivity: 1
   aggressiveTurnAngle: 70
   useFixed: 0
   camSmoothSpeed: 5
@@ -3486,9 +3486,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1780824574}
+  - {fileID: 1141906310}
   - {fileID: 1837291577}
   - {fileID: 193326459}
-  - {fileID: 1141906310}
   - {fileID: 386843635}
   - {fileID: 30447295}
   m_Father: {fileID: 0}
@@ -3585,7 +3585,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1696978679}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844204091
 GameObject:

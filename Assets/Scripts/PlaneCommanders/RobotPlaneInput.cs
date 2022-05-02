@@ -19,11 +19,11 @@ public class RobotPlaneInput : MonoBehaviour
         // Pitch
         if (plane.Pitch < 14)
         {
-            plane.SetElevatorAmount(1);
+            plane.SetElevatorAmount(0.5f);
         }
         else if (plane.Pitch > 18)
         {
-            plane.SetElevatorAmount(-1);
+            plane.SetElevatorAmount(-0.5f);
         } 
         else
         {
@@ -33,11 +33,11 @@ public class RobotPlaneInput : MonoBehaviour
         //Roll
         if (plane.Roll > 25)
         {
-            plane.SetAileronAmount(1);
+            plane.SetAileronAmount(0.5f);
         } 
         else if (plane.Roll < -25)
         {
-            plane.SetAileronAmount(-1);
+            plane.SetAileronAmount(-0.5f);
         }
         else
         {

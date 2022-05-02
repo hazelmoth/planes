@@ -1502,9 +1502,9 @@ MonoBehaviour:
   backwardsDragConstant: 0.8
   inducedDragConstant: 150000
   sidewaysLiftMultiplier: 0.33
-  rollTorqueConstant: 11
-  pitchTorqueConstant: 8
-  yawTorqueConstant: 3
+  rollTorqueConstant: 9
+  pitchTorqueConstant: 6
+  yawTorqueConstant: 2.5
   controlSurfaceMoveSpeed: 4
 --- !u!1 &2069912517870129639
 GameObject:
