@@ -28,6 +28,12 @@ public class PlaneController : MonoBehaviour
 	[SerializeField] private float pitchTorqueConstant = 3f;
 	[SerializeField] private float yawTorqueConstant = 1f;
 
+	[SerializeField] private float controlSurfaceMoveSpeed = 3f;
+
+	private float targetRudderAmount;
+	private float targetAileronAmount;
+	private float targetElevatorAmount;
+
 	private float currentRudderAmount;
 	private float currentAileronAmount;
 	private float currentElevatorAmount;
@@ -98,11 +104,11 @@ public class PlaneController : MonoBehaviour
 	public void SetThrottle(float power) =>
 		CurrentThrottle = health != null ? health.ModifyThrottle(power) : power;
 	public void SetRudderAmount(float yaw) =>
-		currentRudderAmount = health != null ? health.ModifyRudder(yaw) : yaw;
+		targetRudderAmount = health != null ? health.ModifyRudder(yaw) : yaw;
 	public void SetElevatorAmount(float pitch) =>
-		currentElevatorAmount = health != null ? health.ModifyElevator(pitch) : pitch;
+		targetElevatorAmount = health != null ? health.ModifyElevator(pitch) : pitch;
 	public void SetAileronAmount(float roll) =>
-		currentAileronAmount = health != null ? health.ModifyAileron(roll) : roll;
+		targetAileronAmount = health != null ? health.ModifyAileron(roll) : roll;
 
 	public void SetGearDeployed (bool deployed)
 	{
@@ -121,8 +127,25 @@ public class PlaneController : MonoBehaviour
 		rigidbody = GetComponent<Rigidbody>();
     }
 
-	private void Update()
+	private void LateUpdate()
 	{
+		float rudderDelta = Mathf.Min(
+			Mathf.Abs(targetRudderAmount - currentRudderAmount),
+			Time.deltaTime * controlSurfaceMoveSpeed)
+			* Mathf.Sign(targetRudderAmount - currentRudderAmount);
+		float elevatorDelta = Mathf.Min(
+			Mathf.Abs(targetElevatorAmount - currentElevatorAmount),
+			Time.deltaTime * controlSurfaceMoveSpeed)
+			* Mathf.Sign(targetElevatorAmount - currentElevatorAmount);
+		float aileronDelta = Mathf.Min(
+			Mathf.Abs(targetAileronAmount - currentAileronAmount),
+			Time.deltaTime * controlSurfaceMoveSpeed)
+			* Mathf.Sign(targetAileronAmount - currentAileronAmount);
+
+		currentRudderAmount += rudderDelta;
+		currentElevatorAmount += elevatorDelta;
+		currentAileronAmount += aileronDelta;
+
 		if (surfaces != null)
 		{
 			surfaces.SetAileronAmount(currentAileronAmount);

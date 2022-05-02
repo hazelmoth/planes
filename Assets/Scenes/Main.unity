@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 614369763}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 1426.5703, g: 3586.0054, b: 3735.499, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2211,8 +2211,8 @@ MonoBehaviour:
   flightRigPrefab: {fileID: 1340265690153048, guid: 97faf22c61a389145bea624e8761d5c2,
     type: 3}
   hudPrefab: {fileID: 1583529893924578, guid: d5948052808c45f40a19aa637054daa7, type: 3}
-  sensitivity: 4
-  rollSensitivity: 0.5
+  sensitivity: 6
+  rollSensitivity: 0.7
   aggressiveTurnAngle: 70
   useFixed: 0
   camSmoothSpeed: 5
@@ -4767,6 +4767,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Messerschmitt
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069912517859143287, guid: 1873ece3eba25db4193365b6465670d1,
+        type: 3}
+      propertyPath: rollTorqueConstant
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069912517859143287, guid: 1873ece3eba25db4193365b6465670d1,
+        type: 3}
+      propertyPath: optimalDragConstant
+      value: 0.042
+      objectReference: {fileID: 0}
+    - target: {fileID: 2069912517859143287, guid: 1873ece3eba25db4193365b6465670d1,
+        type: 3}
+      propertyPath: backwardsDragConstant
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1873ece3eba25db4193365b6465670d1, type: 3}

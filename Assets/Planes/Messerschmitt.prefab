@@ -1498,13 +1498,14 @@ MonoBehaviour:
   enginePowerWatts: 800000
   staticThrust: 15000
   liftConstant: 27.5
-  optimalDragConstant: 0.045
-  backwardsDragConstant: 0.3
+  optimalDragConstant: 0.042
+  backwardsDragConstant: 0.4
   inducedDragConstant: 150000
   sidewaysLiftMultiplier: 0.33
-  rollTorqueConstant: 4
-  pitchTorqueConstant: 3
-  yawTorqueConstant: 1
+  rollTorqueConstant: 11
+  pitchTorqueConstant: 8
+  yawTorqueConstant: 3
+  controlSurfaceMoveSpeed: 4
 --- !u!1 &2069912517870129639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,7 +2576,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 3
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -3479,7 +3480,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 5
+  m_Time: 3
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

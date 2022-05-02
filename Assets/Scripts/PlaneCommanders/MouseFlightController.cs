@@ -45,6 +45,10 @@ namespace MFlight
         private bool isMouseAimFrozen = false;
         private float currentThrottle = 0f;
 
+        private PidController yawController;
+        private PidController pitchController;
+        private PidController rollController;
+
         public PlaneController ActivePlane => aircraft;
         public float CurrentThrottle => currentThrottle;
 
@@ -100,6 +104,11 @@ namespace MFlight
                 Debug.LogError(name + "MouseFlightController - No camera rig transform assigned!");
             if (flightRig.Cam == null)
                 Debug.LogError(name + "MouseFlightController - No camera transform assigned!");
+
+            yawController = new PidController(0.45f,   0.04f, 0.20f);
+            pitchController = new PidController(0.45f, 0.04f, 0.20f);
+            rollController = new PidController(0.45f,  0.04f, 0.20f);
+
         }
 
         private void LateUpdate()
@@ -199,21 +208,6 @@ namespace MFlight
             Vector3 localFlyTarget = aircraft.transform.InverseTransformPoint(flyTarget).normalized * sensitivity;
             float angleOffTarget = Vector3.Angle(aircraft.transform.forward, flyTarget - aircraft.transform.position);
 
-            // IMPORTANT!
-            // These inputs are created proportionally. This means it can be prone to
-            // overshooting. The physics in this example are tweaked so that it's not a big
-            // issue, but in something with different or more realistic physics this might
-            // not be the case. Use of a PID controller for each axis is highly recommended.
-
-            // ====================
-            // PITCH AND YAW
-            // ====================
-
-            // Yaw/Pitch into the target so as to put it directly in front of the aircraft.
-            // A target is directly in front the aircraft if the relative X and Y are both
-            // zero. Note this does not handle for the case where the target is directly behind.
-            yaw = Mathf.Clamp(localFlyTarget.x, -1f, 1f);
-            pitch = Mathf.Clamp(localFlyTarget.y, -1f, 1f);
 
             // ====================
             // ROLL
@@ -234,7 +228,28 @@ namespace MFlight
 
             // Blend between auto level and banking into the target.
             float wingsLevelInfluence = Mathf.InverseLerp(0f, aggressiveTurnAngle, angleOffTarget);
-            roll = Mathf.Lerp(wingsLevelRoll, aggressiveRoll, wingsLevelInfluence);
+            // roll = Mathf.Lerp(wingsLevelRoll, aggressiveRoll, wingsLevelInfluence);
+            roll = Mathf.Clamp(
+                rollController.Update(Time.time, Mathf.Lerp(wingsLevelRoll, aggressiveRoll, wingsLevelInfluence)),
+                -1f,
+                1f);
+
+            // ====================
+            // PITCH AND YAW
+            // ====================
+
+            // Yaw/Pitch into the target so as to put it directly in front of the aircraft.
+            // A target is directly in front the aircraft if the relative X and Y are both
+            // zero. Note this does not handle for the case where the target is directly behind.
+            //yaw = Mathf.Clamp(localFlyTarget.x, -1f, 1f);
+            //pitch = Mathf.Clamp(localFlyTarget.y, -1f, 1f);
+            yaw = Mathf.Clamp(yawController.Update(Time.time, localFlyTarget.x),     -1f, 1f);
+
+            pitch = Mathf.Clamp(localFlyTarget.y, -1f, 1f);
+            // Reduce pitch change when performing an aggressive roll.
+            pitch -= wingsLevelInfluence * Mathf.Abs(aggressiveRoll) * Mathf.Sign(pitch);
+            pitch = Mathf.Clamp(pitch, -1f, 1f);
+            pitch = Mathf.Clamp(pitchController.Update(Time.time, pitch), -1f, 1f);
         }
 
         // Thanks to Rory Driscoll
