@@ -1389,7 +1389,7 @@ MonoBehaviour:
   gear: {fileID: 2069912517859143286}
   weapons: {fileID: 2069912517859143242}
   health: {fileID: 2069912517859143241}
-  centerOfDrag: {x: 0, y: 0.4, z: -2.4}
+  centerOfDrag: {x: 0, y: 0.4, z: -2.7}
   liftCurve:
     serializedVersion: 2
     m_Curve:
@@ -1499,7 +1499,7 @@ MonoBehaviour:
   staticThrust: 15000
   liftConstant: 27.5
   optimalDragConstant: 0.042
-  backwardsDragConstant: 0.4
+  backwardsDragConstant: 0.8
   inducedDragConstant: 150000
   sidewaysLiftMultiplier: 0.33
   rollTorqueConstant: 11

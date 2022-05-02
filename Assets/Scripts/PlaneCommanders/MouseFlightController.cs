@@ -125,11 +125,19 @@ namespace MFlight
             currentThrottle = Mathf.Clamp01(currentThrottle);
             aircraft.SetThrottle(currentThrottle);
 
+            // Keyboard input overrides mouse input
+            float keyboardPitch = Input.GetAxis("Vertical");
+            bool pitchOverride = Mathf.Abs(keyboardPitch) > .25f;
+
+            float keyboardRoll = Input.GetAxis("Horizontal");
+            bool rollOverride = pitchOverride || Mathf.Abs(keyboardRoll) > .25f;
+
             // Mouse follow input
             CalculateControls(MouseAimPos, out float yaw, out float pitch, out float roll);
+
             aircraft.SetRudderAmount(yaw);
-            aircraft.SetElevatorAmount(pitch);
-            aircraft.SetAileronAmount(roll);
+            aircraft.SetElevatorAmount(pitchOverride ? keyboardPitch : pitch);
+            aircraft.SetAileronAmount(rollOverride ? keyboardRoll : roll);
 
             // Other input
             if (aircraft.Weapons != null) aircraft.Weapons.SetTrigger(Input.GetButton("Fire"));
