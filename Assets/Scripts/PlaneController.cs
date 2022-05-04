@@ -258,7 +258,7 @@ public class PlaneController : MonoBehaviour
 
 	private float CalculateInducedDragMagnitude ()
 	{
-		float inducedDragMagnitude = CalculateLift() * inducedDragConstant / Mathf.Pow(rigidbody.velocity.magnitude, 4);
+		float inducedDragMagnitude = Mathf.Pow(CalculateLift(), 2) * inducedDragConstant / Mathf.Pow(rigidbody.velocity.magnitude, 4);
 
 		if (ForwardVelocity.magnitude <= 20f)
 			inducedDragMagnitude = 0;
